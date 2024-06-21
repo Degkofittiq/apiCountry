@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sélection de pays, code téléphonique, drapeau et liste des villes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        select {
+            padding: 5px;
+            font-size: 16px;
+        }
+        .country-info {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-width: 400px;
+        }
+        .country-info p {
+            margin: 5px 0;
+        }
+        .flag {
+            width: 30px;
+            height: auto;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Sélection de pays, code téléphonique, drapeau et liste des villes</h1>
+
+<form id="countryForm">
+    <label for="country">Sélectionnez un pays :</label>
+    <select id="country" name="country">
+        <?php
+        // URL de l'API Restcountries
+        $url = "https://restcountries.com/v3.1/all";
+
+        // Initialiser une session cURL
+        $ch = curl_init();
+
+        // Configurer les options de cURL
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Désactiver la vérification SSL
+
+        // Exécuter la requête cURL et obtenir la réponse
+        $response = curl_exec($ch);
+
+        // Vérifier si la requête cURL a échoué
+        if ($response === false) {
+            die('Erreur cURL : ' . curl_error($ch));
+        }
+
+        // Fermer la session cURL
+        curl_close($ch);
+
+        // Décoder la réponse JSON
+        $countries = json_decode($response, true);
+
+        // Vérifier si le décodage JSON a échoué
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            die('Erreur de décodage JSON : ' . json_last_error_msg());
+        }
+
+        // Afficher les options du dropdown avec les noms, les abréviations et les codes téléphoniques des pays
+        foreach ($countries as $country) {
+            $countryName = $country['name']['common'];
+            $countryCode = $country['cca2']; // Abréviation du pays (code ISO 3166-1 alpha-2)
+            $callingCode = isset($country['idd']['root']) ? $country['idd']['root'] . $country['idd']['suffixes'][0] : 'N/A'; // Code téléphonique du pays
+            $flagUrl = isset($country['flags']['png']) ? $country['flags']['png'] : ''; // URL du drapeau du pays
+            
+            echo "<option value=\"$countryName\" data-code=\"$countryCode\" data-call=\"$callingCode\" data-flag=\"$flagUrl\">$countryName</option>";
+        }
+        ?>
+    </select>
+</form>
+
+<div id="countryInfo" class="country-info">
+    <!-- Ici sera affiché le code téléphonique, l'abréviation, le drapeau et la liste des villes du pays sélectionné -->
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const countrySelect = document.getElementById('country');
+    const countryInfo = document.getElementById('countryInfo');
+    
+    countrySelect.addEventListener('change', function() {
+        const selectedCountry = this.value;
+        const countryCode = this.options[this.selectedIndex].getAttribute('data-code');
+        const callingCode = this.options[this.selectedIndex].getAttribute('data-call');
+        const flagUrl = this.options[this.selectedIndex].getAttribute('data-flag');
+        
+        // Appel AJAX pour récupérer les villes du pays sélectionné
+        fetchCities(selectedCountry, countryCode);
+        
+        // Affichage des informations du pays sélectionné
+        displayCountryInfo(selectedCountry, countryCode, callingCode, flagUrl);
+    });
+    
+    function fetchCities(countryName, countryCode) {
+        // URL de l'API Geonames pour obtenir les villes du pays sélectionné
+        const username = "archange"; // Votre clé d'utilisateur Geonames
+        const geonamesUrl = `http://api.geonames.org/searchJSON?country=${countryCode}&featureClass=P&maxRows=1000&username=${username}`;
+        
+        fetch(geonamesUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Vérification et affichage des villes trouvées
+                if (data.geonames && data.geonames.length > 0) {
+                    displayCities(data.geonames);
+                } else {
+                    displayCities([{name: "Aucune ville trouvée"}]); // Affichage d'un message si aucune ville trouvée
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des données depuis Geonames:', error);
+                displayCities([{name: "Erreur de récupération des villes"}]); // Affichage d'un message d'erreur
+            });
+    }
+    
+    function displayCities(cities) {
+        let html = `<h3>Liste des villes</h3>`;
+        html += `<ul>`;
+        cities.forEach(city => {
+            html += `<li>${city.name}</li>`;
+        });
+        html += `</ul>`;
+        
+        countryInfo.innerHTML += html; // Ajout de la liste des villes à la div countryInfo
+    }
+    
+    function displayCountryInfo(countryName, countryCode, callingCode, flagUrl) {
+        let html = `<h2>Informations sur le pays sélectionné</h2>`;
+        html += `<p><strong>Pays :</strong> ${countryName}</p>`;
+        html += `<p><strong>Abréviation :</strong> ${countryCode}</p>`;
+        html += `<p><strong>Code téléphonique :</strong> ${callingCode}</p>`;
+        html += `<img class="flag" src="${flagUrl}" alt="Drapeau ${countryName}">`;
+        
+        countryInfo.innerHTML = html; // Remplacement du contenu précédent par les informations du pays sélectionné
+    }
+});
+</script>
+
+</body>
+</html>
