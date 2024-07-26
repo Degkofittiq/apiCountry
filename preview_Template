@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Webtinz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet" />
+
+
+    {{-- css links --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/media.css') }}">
+    <style>
+        .navbar {
+            z-index: 100 !important;
+        }
+
+
+        .ourpartners .col img {
+            max-width: 300px !important;
+            min-width: 80px !important;
+            max-height: 50px !important;
+            min-height: 50px !important;
+        }
+
+        h6>p {
+            color: #F05940 !important
+        }
+
+        h2.text-center>p {
+            font-weight: 500 !important;
+            font-size: 50px !important;
+            text-align: center !important
+        }
+
+        #titleheader h2 {
+            font-weight: 500 !important;
+            font-size: 50px !important;
+            text-align: center !important
+        }
+
+        .btn :hover {
+            background: #F05940 !important;
+        }
+
+        .get-started-container :hover {
+            background: #F05940 !important;
+
+        }
+
+        .get-started-container {
+            max-height: 35px !important;
+        }
+
+        .btn p {
+            margin: 0px !important;
+        }
+
+        * {
+            box-sizing: border-box !important;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 1200px) {
+            .ourpartners {
+                /* margin-top: 32em; */
+            }
+        }
+
+        /* CSS personnalisé */
+        @media (min-width: 100px) {
+            .modal-lg {
+                max-width: 90vw;
+                margin-top: 1vh !important;
+            }
+        }
+
+        #btn-close {
+            color: #F8F8F8 !important;
+            background-color: red !important;
+        }
+
+        iframe {
+            min-width: 100% !important;
+            max-width: 100% !important;
+            min-height: 92vh;
+            margin: 0px !important;
+        }
+
+        .modal-title {
+            font-size: 1rem;
+        }
+
+        .modal-header {
+            padding: 5px 16px 5px 16px !important;
+        }
+
+        .modal-header .btn-close {
+            background-color: red !important;
+
+        }
+
+        #div-sublinks a.nav-link {
+            color: rgb(54, 54, 54) !important;
+        }
+
+
+        /* CSS personnalisé */
+        @media (min-width: 100px) {
+            .modal-lg {
+                max-width: 90vw;
+                margin-top: 1vh !important;
+            }
+        }
+
+        #btn-close {
+            color: #F8F8F8 !important;
+            background-color: red !important;
+        }
+
+        iframe {
+            min-width: 100% !important;
+            max-width: 100% !important;
+            min-height: 92vh;
+            margin: 0px !important;
+        }
+
+        .modal-title {
+            font-size: 1rem;
+        }
+
+        .modal-header {
+            padding: 5px 16px 5px 16px !important;
+        }
+
+        .modal-header .btn-close {
+            background-color: red !important;
+
+        }
+
+
+
+        .nav-underline .nav-link.active {
+            border-bottom: 2px solid #007bff;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .dispnone {
+            display: none;
+        }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .main-image {
+            width: 70% !important;
+            /* Ajustez cette valeur selon vos besoins */
+            height: 450px !important;
+            margin-top: 10% !important;
+            bottom: 0;
+
+        }
+
+        .overlay-image {
+            position: absolute;
+            bottom: 20%;
+            /* Ajustez cette valeur pour positionner verticalement */
+            left: 60%;
+            /* Ajustez cette valeur pour positionner horizontalement */
+            width: 40% !important;
+            height: 250px !important;
+            /* Ajustez cette valeur pour la taille de la deuxième image */
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- section navbar -->
+
+    {{-- Nom pour retrouver les variables pour les images image_essai --}}
+    <header id="home-header"
+        style="background: url('@php echo asset("storage/".$sharedContentData['baner_bg_img']->en_content) ?? asset('assets/images/header-bg.png'); @endphp') rgba(0, 0, 0, 0.6); background-size: cover; height:800px;">
+        <div class="contains-header">
+            <nav class="navbar  navbar-expand-lg" id="navbar">
+                <div class="container">
+                    <a class="navbar-brand" href="/">
+                        <img src="@php echo asset("storage/".$sharedContentData['site_logo_img']->en_content) ?? asset('assets/images/logo (1).png'); @endphp"
+                            alt="Logo" width="150px" class="d-inline-block align-text-top">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                        aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">webtinz</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <ul class="navbar-nav mx-auto">
+                                <li class="nav-item me-2">
+                                    <a class="nav-link active" aria-current="page"
+                                        href="{{ route('howitworks') }}">@php echo $sharedContentData['text_nav_home_link_1']->{session('language', 'en') . '_content'} ?? ""; @endphp </a>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <a class="nav-link" href="{{ route('pricing') }}"> @php echo $sharedContentData['text_nav_home_link_2']->{session('language', 'en') . '_content'} ?? "" ; @endphp </a>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <a class="nav-link" href="{{ route('templates') }}">@php echo $sharedContentData['text_nav_home_link_3']->{session('language', 'en') . '_content'} ?? ""; @endphp </a>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <a class="nav-link" href="#">@php echo $sharedContentData['text_nav_home_link_4']->{session('language', 'en') . '_content'} ?? ""; @endphp </a>
+                                </li>
+                            </ul>
+                            <div class="navbar-button d-flex">
+                                <ul class="navbar-nav">
+                                    @if (!auth()->check())
+                                        <li class="nav-item ">
+                                            <a class="nav-link fistlink" href="{{ route('login') }}">
+                                                {{ session('language', 'en') == 'fr' ? 'Se connecter' : 'Login' }}
+                                            </a>
+                                        </li>
+                                        <li class="nav-item mx-2">
+                                            <a class="nav-link getstart" href="{{ route('register') }}">
+                                                {{ session('language', 'en') == 'fr' ? "S'enregistrer" : 'Sign UP' }}
+                                            </a>
+                                        </li>
+                                    @endif
+
+                                    @if (auth()->check())
+                                        @if (Auth::user()->role_id == 1)
+                                            <li class="nav-item ">
+                                                <a class="nav-link fistlink" href="{{ route('dashboarduser') }}">
+                                                    {{ session('language', 'en') == 'fr' ? 'Tableau de bord' : 'Dashboard' }}
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li class="nav-item">
+                                                <a class="nav-link fistlink" href="{{ route('backoffice') }}">
+                                                    {{ session('language', 'en') == 'fr' ? 'Tableau de bord' : 'Dashboard' }}
+                                                </a>
+                                            </li>
+                                        @endif
+
+
+                                    @endif
+
+                                    <div class="dropdown">
+                                        <form method="POST" action="{{ route('set_language') }}">
+                                            @csrf
+                                            <button class="language-select dropdown-toggle" type="button"
+                                                id="language-select" data-bs-toggle="dropdown" aria-expanded="false">
+                                                @if (session('language', 'en') == 'fr')
+                                                    <span class="flag-icon flag-icon-fr me-1"></span>
+                                                    <span>French</span>
+                                                @else
+                                                    <span class="flag-icon flag-icon-us me-1"></span>
+                                                    <span>English</span>
+                                                @endif
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="language-select">
+                                                <li>
+                                                    <button type="submit" name="language" value="en"
+                                                        class="dropdown-item">
+                                                        <span class="flag-icon flag-icon-us me-1"></span>
+                                                        <span>English</span>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="submit" name="language" value="fr"
+                                                        class="dropdown-item">
+                                                        <span class="flag-icon flag-icon-fr me-1"></span>
+                                                        <span>French</span>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </form>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+
+            <div class="container title-header" id="titleheader">
+                <center>
+                    <div class="row">
+                        @if (session('error'))
+                            <div class="alert alert-danger container col-md-5">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                    </div>
+                </center>
+
+                <h2 class="text-center" style="font-size:500 !important;">
+                    @php echo $sharedContentData['template_search_label']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                </h2>
+                <div class="container mt-5 col-md-7">
+                    <form action="{{ route('searchtemplate') }}" method="POST" enctype="multipart/form-data" style="width: 100% !important">
+                        @csrf
+                        <div class="input-group">
+                            <input type="text" style="padding:10px; height:45px:" name="search" class="form-control" placeholder="Search..." value="@if ($_POST) {{ $_POST['search'] }} @endif">
+                            <button type="submit" class="input-group-text">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                </form>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    @if(empty($_POST))
+        <main>
+
+
+            {{-- template_search_label --}}
+            {{-- @php echo $sharedContentData['template_search_label']->{session('language', 'en') . '_content'} ?? "";  @endphp --}}
+            <section class="avantages">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="div-sublinks" class="" style="border-bottom: 3px solid rgba(0, 0, 0, 0.2);">
+                            <div class="mx-5 col d-flex align-items-center" style="justify-content:space-between">
+                                <ul class="nav nav-underline">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="/templates#all" onclick="activateLink(event,'content')">All templates</a>
+                                    </li>
+                                    @foreach ($AllTypes as $eachtype)
+                                        <li class="nav-item mx-2">
+                                            <a class="nav-link" aria-current="page" href="#"
+                                                onclick="activateLink(event,'{{ $eachtype->name }}')">
+                                                {{ $eachtype->name }} </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <div class="get-started-container d-flex">
+                                    <a class="getstart btn" href="#">
+                                        @php echo $sharedContentData['start_selling_btn_text']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {{-- @php echo $sharedContentData['no_technical_skills']->{session('language', 'en') . '_content'} ?? "";  @endphp --}}
+
+            <div id="content" class="content-section active mx-1">
+                <div class="row py-3">
+                    <h1 class="text-center">
+                        @php echo $sharedContentData['bestsellers_tittle']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                    </h1>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mx-5 my-2 py-4">
+                    @foreach ($templates as $template)
+                        <div class="col" id="template-list{{ $template->id }}"
+                            data-template-id="{{ $template->id }}" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            <div class="card shadow-sm">
+                                <img src="{{ asset('storage/' . $template->thumbnail) }}" alt="{{ $template->name }}"
+                                    class="card-img-top" height="255">
+                                <div class="card-body">
+                                    <span class=" btn-outline-secondary"
+                                        style="border-radius: 30px; border:0.5px solid gray;color:gray;padding: 1px 10px !important; ">{{ $template->typetemplate }}</span>
+                                    <h4>{{ $template->name }} Template</h4>
+                                    <p class="card-text">{{ session('language', 'en') == 'en' ? 'By' : 'Par' }}
+                                        {{ $template->createby }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group" style="color: #F05940">
+                                            <strong>{{ $template->price=="" ? "Free" : $template->price ." CFA"}}</strong>
+                                        </div>
+                                        <small class="text-body-secondary"
+                                            style="rotate: -40deg; background-color: rgba(240, 89, 64, 0.2); 
+                                    border-radius: 50%; 
+                                    display: inline-flex; 
+                                    justify-content: center; 
+                                    align-items: center; 
+                                    width: 30px; 
+                                    height: 30px;">
+                                            <i class="bi bi-arrow-right" style="color: rgb(0, 0, 0);font-size:20px;"></i>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <section style="background: #FFF6EC;height: auto;padding-top: 4%; padding-bottom:5%" class="my-5">
+                    <div class="mx-5">
+                        <div style="justify-content: space-between; display:flex">
+                            <h1>
+                                @php echo $sharedContentData['top_rated_tittle']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                            </h1>
+                            <div class="get-started-container d-flex">
+                                <a class="getstart btn" href="#">
+                                    @php echo $sharedContentData['view_all_btn_text']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mx-5 my-2 py-4">
+                        @foreach ($templates as $template)
+                            <div class="col" data-template-id="{{ $template->id }}" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                <div class="card shadow-sm">
+                                    <img src="{{ asset('storage/' . $template->thumbnail) }}" alt="{{ $template->name }}"
+                                        class="card-img-top" height="255">
+                                    <div class="card-body">
+                                        <span class=" btn-outline-secondary"
+                                            style="border-radius: 30px; border:0.5px solid gray;color:gray;padding: 1px 10px !important; ">{{ $template->typetemplate }}</span>
+                                        <h4>{{ $template->name }} Template</h4>
+                                        <p class="card-text">{{ session('language', 'en') == 'en' ? 'By' : 'Par' }}
+                                            {{ $template->createby }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group" style="color: #F05940">
+                                                <strong>{{ $template->price=="" ? "Free" : $template->price ." CFA"}}</strong>
+                                            </div>
+                                            <small class="text-body-secondary"
+                                                style="rotate: -40deg; background-color: rgba(240, 89, 64, 0.2); 
+                                    border-radius: 50%; 
+                                    display: inline-flex; 
+                                    justify-content: center; 
+                                    align-items: center; 
+                                    width: 30px; 
+                                    height: 30px;">
+                                                <i class="bi bi-arrow-right"
+                                                    style="color: rgb(0, 0, 0);font-size:20px;"></i>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+
+
+                <section style="height: auto;padding-top: 4%; padding-bottom:5%" class="my-5">
+                    <div class="mx-5">
+                        <div style="justify-content: space-between; display:flex">
+                            <h1>
+                                @php echo $sharedContentData['new_releases']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                            </h1>
+                            <div class="get-started-container d-flex">
+                                <a class="getstart btn" href="#">
+                                    @php echo $sharedContentData['view_all_btn_text']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mx-5 my-2 py-4">
+                        @foreach ($templates as $template)
+                            <div class="col" data-template-id="{{ $template->id }}" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                <div class="card shadow-sm">
+                                    <img src="{{ asset('storage/' . $template->thumbnail) }}" alt="{{ $template->name }}"
+                                        class="card-img-top" height="255">
+                                    <div class="card-body">
+                                        <span class=" btn-outline-secondary"
+                                            style="border-radius: 30px; border:0.5px solid gray;color:gray;padding: 1px 10px !important; ">{{ $template->typetemplate }}</span>
+                                        <h4>{{ $template->name }} Template</h4>
+                                        <p class="card-text">{{ session('language', 'en') == 'en' ? 'By' : 'Par' }}
+                                            {{ $template->createby }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group" style="color: #F05940">
+                                                <strong>{{ $template->price=="" ? "Free" : $template->price ." CFA"}}</strong>
+                                            </div>
+                                            <small class="text-body-secondary"
+                                                style="rotate: -40deg; background-color: rgba(240, 89, 64, 0.2); 
+                                    border-radius: 50%; 
+                                    display: inline-flex; 
+                                    justify-content: center; 
+                                    align-items: center; 
+                                    width: 30px; 
+                                    height: 30px;">
+                                                <i class="bi bi-arrow-right"
+                                                    style="color: rgb(0, 0, 0);font-size:20px;"></i>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+
+            </div>
+
+
+            @foreach ($templateTypes as $templateType)
+                <div id="{{ $templateType['type'] }}" class="content-section dispnone">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mx-5 my-3">
+                        @foreach ($templateType['templates'] as $template)
+                            <div class="col" data-template-id="{{ $template->id }}" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                <div class="card shadow-sm">
+                                    <img src="{{ asset('storage/' . $template->thumbnail) }}" alt="{{ $template->name }}"
+                                        class="card-img-top" height="255">
+                                    <div class="card-body">
+                                        <span class=" btn-outline-secondary"
+                                            style="border-radius: 30px; border:0.5px solid gray;color:gray;padding: 1px 10px !important; ">{{ $template->typetemplate }}</span>
+                                        <h4>{{ $template->name }} Template</h4>
+                                        <p class="card-text">{{ session('language', 'en') == 'en' ? 'By' : 'Par' }}
+                                            {{ $template->createby }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group" style="color: #F05940">
+                                                <strong>{{ $template->price=="" ? "Free" : $template->price ." CFA"}}</strong>
+                                            </div>
+                                            <small class="text-body-secondary"
+                                                style="rotate: -40deg; background-color: rgba(240, 89, 64, 0.2); 
+                                    border-radius: 50%; 
+                                    display: inline-flex; 
+                                    justify-content: center; 
+                                    align-items: center; 
+                                    width: 30px; 
+                                    height: 30px;">
+                                                <i class="bi bi-arrow-right"
+                                                    style="color: rgb(0, 0, 0);font-size:20px;"></i>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
+
+
+            <section class="digitalisation container">
+                <div class="row">
+                    <div class="col text-center image-container mx-5">
+                        <img src="@php echo asset("storage/".$sharedContentData['template_last_section_big_img']->en_content) ?? "http://localhost:8000/assets/images/boring_studio_img.png" ; @endphp"
+                            alt="Image 1" class="main-image">
+                        <img src="@php echo asset("storage/".$sharedContentData['template_last_section_small_img']->en_content) ?? "http://localhost:8000/assets/images/boring_studio_small_img.png" ; @endphp"
+                            alt="Image 2" class="overlay-image">
+                    </div>
+                    <div class="col ">
+                        <h6 style="color: #F05940 !important">
+                            @php echo $sharedContentData['digitalisation_section_orange_text']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                        </h6>
+                        <h1>
+                            Want to sell your own
+                            <br>
+                            website template?
+                        </h1>
+                        <p>Phasellus pulvinar purus ex, sed iaculis lectus</p>
+                        <a class="getstart" href="http://localhost:8000/letstart">
+                            @php echo $sharedContentData['get_started_btn']->{session('language', 'en') . '_content'} ?? ""; @endphp
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ourpartners container-fluid"
+                style="margin-top: 10% !important; margin-bottom: 10% !important;">
+                <div class="ourpartners-text text-center">
+                    @php echo $sharedContentData['ourpartners_section_name']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                </div>
+                <div class="partnersimage">
+                    <div class="row justify-content-center mt-4">
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/image 1.png" alt="">
+                        </div>
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/image 2.png" alt="">
+                        </div>
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/image 3.png" alt="">
+                        </div>
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/image 4.png" alt="">
+                        </div>
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/image 5.png" alt="">
+                        </div>
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/Logo-5f01c355 1.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!-- Modal for template preview -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg"> <!-- Utilisation de modal-lg pour un modal large -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Preview Template</h5>
+                            <span type="button" id="btn-close" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></span>
+                        </div>
+                        <div class="modal-body" style="margin: 0px !important; padding: 0px 10px 0px 10px">
+                            <iframe
+                                id="template-preview-frame"style="border: 0.5px solid; margin: 0px !important"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="loading"></div>
+
+        </main>
+    @else
+        <main>
+            <section class="avantages">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="div-sublinks" class="" style="border-bottom: 3px solid rgba(0, 0, 0, 0.2);">
+                            <div class="mx-5 col d-flex align-items-center" style="justify-content:space-between">
+                                <ul class="nav nav-underline">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="#"
+                                            onclick="activateLink(event,'content')">All templates</a>
+                                    </li>
+                                    @foreach ($AllTypes as $eachtype)
+                                        <li class="nav-item mx-2">
+                                            <a class="nav-link" aria-current="page" href="#"
+                                                onclick="activateLink(event,'{{ $eachtype->name }}')">
+                                                {{ $eachtype->name }} </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <div class="get-started-container d-flex">
+                                    <a class="getstart btn" href="#">
+                                        @php echo $sharedContentData['start_selling_btn_text']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <div id="content" class="content-section active mx-1">
+                <div class="row py-3">
+                    <h1 class="text-center">
+                        @php echo $sharedContentData['search_result']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                    </h1>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mx-5 my-2 py-4">
+                    @if ($templatesSeach->count() != 0)
+                        @foreach ($templatesSeach as $template)
+                            <div class="col" id="template-list{{ $template->id }}"
+                                data-template-id="{{ $template->id }}" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                <div class="card shadow-sm">
+                                    <img src="{{ asset('storage/' . $template->thumbnail) }}" alt="{{ $template->name }}"
+                                        class="card-img-top" height="255">
+                                    <div class="card-body">
+                                        <span class=" btn-outline-secondary"
+                                            style="border-radius: 30px; border:0.5px solid gray;color:gray;padding: 1px 10px !important; ">{{ $template->typetemplate }}</span>
+                                        <h4>{{ $template->name }} Template</h4>
+                                        <p class="card-text">{{ session('language', 'en') == 'en' ? 'By' : 'Par' }}
+                                            {{ $template->createby }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group" style="color: #F05940">
+                                                <strong>{{ $template->price=="" ? "Free" : $template->price ." CFA"}}</strong>
+                                            </div>
+                                            <small class="text-body-secondary"
+                                                style="rotate: -40deg; background-color: rgba(240, 89, 64, 0.2); 
+                                        border-radius: 50%; 
+                                        display: inline-flex; 
+                                        justify-content: center; 
+                                        align-items: center; 
+                                        width: 30px; 
+                                        height: 30px;">
+                                                <i class="bi bi-arrow-right" style="color: rgb(0, 0, 0);font-size:20px;"></i>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="alert alert-warning text-center container col-md-8">
+                            Oups, No result !
+                        </div>
+                    @endif
+                </div>
+
+            </div>
+
+
+            @foreach ($templateTypes as $templateType)
+                <div id="{{ $templateType['type'] }}" class="content-section dispnone">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mx-5 my-3">
+                        @foreach ($templateType['templates'] as $template)
+                            <div class="col" data-template-id="{{ $template->id }}" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                <div class="card shadow-sm">
+                                    <img src="{{ asset('storage/' . $template->thumbnail) }}" alt="{{ $template->name }}"
+                                        class="card-img-top" height="255">
+                                    <div class="card-body">
+                                        <span class=" btn-outline-secondary"
+                                            style="border-radius: 30px; border:0.5px solid gray;color:gray;padding: 1px 10px !important; ">{{ $template->typetemplate }}</span>
+                                        <h4>{{ $template->name }} Template</h4>
+                                        <p class="card-text">{{ session('language', 'en') == 'en' ? 'By' : 'Par' }}
+                                            {{ $template->createby }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group" style="color: #F05940">
+                                                <strong>{{ $template->price=="" ? "Free" : $template->price ." CFA"}}</strong>
+                                            </div>
+                                            <small class="text-body-secondary"
+                                                style="rotate: -40deg; background-color: rgba(240, 89, 64, 0.2); 
+                                    border-radius: 50%; 
+                                    display: inline-flex; 
+                                    justify-content: center; 
+                                    align-items: center; 
+                                    width: 30px; 
+                                    height: 30px;">
+                                                <i class="bi bi-arrow-right"
+                                                    style="color: rgb(0, 0, 0);font-size:20px;"></i>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
+
+
+            <section class="digitalisation container">
+                <div class="row">
+                    <div class="col text-center image-container mx-5">
+                        <img src="@php echo asset("storage/".$sharedContentData['template_last_section_big_img']->en_content) ?? "http://localhost:8000/assets/images/boring_studio_img.png" ; @endphp"
+                            alt="Image 1" class="main-image">
+                        <img src="@php echo asset("storage/".$sharedContentData['template_last_section_small_img']->en_content) ?? "http://localhost:8000/assets/images/boring_studio_small_img.png" ; @endphp"
+                            alt="Image 2" class="overlay-image">
+                    </div>
+                    <div class="col ">
+                        <h6 style="color: #F05940 !important">
+                            @php echo $sharedContentData['digitalisation_section_orange_text']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                        </h6>
+                        <h1>
+                            Want to sell your own
+                            <br>
+                            website template?
+                        </h1>
+                        <p>Phasellus pulvinar purus ex, sed iaculis lectus</p>
+                        <a class="getstart" href="http://localhost:8000/letstart">
+                            @php echo $sharedContentData['get_started_btn']->{session('language', 'en') . '_content'} ?? ""; @endphp
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ourpartners container-fluid"
+                style="margin-top: 10% !important; margin-bottom: 10% !important;">
+                <div class="ourpartners-text text-center">
+                    @php echo $sharedContentData['ourpartners_section_name']->{session('language', 'en') . '_content'} ?? "";  @endphp
+                </div>
+                <div class="partnersimage">
+                    <div class="row justify-content-center mt-4">
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/image 1.png" alt="">
+                        </div>
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/image 2.png" alt="">
+                        </div>
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/image 3.png" alt="">
+                        </div>
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/image 4.png" alt="">
+                        </div>
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/image 5.png" alt="">
+                        </div>
+                        <div class="col">
+                            <img src="http://localhost:8000/assets/images/partners/Logo-5f01c355 1.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!-- Modal for template preview -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg"> <!-- Utilisation de modal-lg pour un modal large -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Preview Template</h5>
+                            <span type="button" id="btn-close" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></span>
+                        </div>
+                        <div class="modal-body" style="margin: 0px !important; padding: 0px 10px 0px 10px">
+                            <iframe
+                                id="template-preview-frame"style="border: 0.5px solid; margin: 0px !important"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="loading"></div>
+
+        </main>
+    @endif
+
+
+
+
+
+    <footer class="text-center mt-5 text-lg-start text-white">
+        <!-- Grid container -->
+        <div class="container p-4">
+            <!--Grid row-->
+            <div class="row my-4">
+                <div class=" column1 col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class=" mb-4">        
+                        
+                        @php
+                            echo $sharedContentData['get_help']->{session('language', 'en') . '_content'} ?? "";
+                        @endphp
+                    </h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <p class="men1">@php echo $sharedContentData['call_text']->{session('language', 'en') . '_content'} ?? ""; @endphp 24X7</p>
+                        </li>
+                        <li>
+                            <p class="men2">229 543 35133</p>
+                        </li>
+                        <li>
+                            <p class="men3">sales@tektinz.com</p>
+                        </li>
+                    </ul>
+                </div>
+    
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="column1 mb-4"> @php echo $sharedContentData['quicklinks']->{session('language', 'en') . '_content'} ?? "";  @endphp </h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="{{ route('letstart') }}" class="text-white">
+                                @php echo $sharedContentData['get_started_btn']->{session('language', 'en') . '_content'} ?? ""; @endphp     
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="/" class="text-white"> @php echo $sharedContentData['home_link']->{session('language', 'en') . '_content'} ?? "";  @endphp </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="/#faq" class="text-white"> @php echo $sharedContentData['about_us_link']->{session('language', 'en') . '_content'} ?? "";  @endphp </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="/howitworks" class="text-white">@php echo $sharedContentData['how_it_works_link']->{session('language', 'en') . '_content'} ?? "";  @endphp </a> 
+                        </li>
+                        <li class="mb-2"> 
+                            <a href="/pricing" class="text-white">@php echo $sharedContentData['pricing_link']->{session('language', 'en') . '_content'} ?? "";  @endphp </a> 
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-white"> @php echo $sharedContentData['get_help']->{session('language', 'en') . '_content'} ?? "";  @endphp </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-white">Copy Right</a>
+                        </li> 
+                        {{-- <li class="mb-2">
+                            <a href="#!" class="text-white">Contact </a>
+                        </li> --}}
+                    </ul>
+                </div>
+                <!--Grid column-->
+    
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="column1 mb-4">@php echo $sharedContentData['follow_us_on_link']->{session('language', 'en') . '_content'} ?? "";  @endphp </h5>
+    
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="#!" class="text-white">@php echo $sharedContentData['youtube']->{session('language', 'en') . '_content'} ?? "";  @endphp </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!" class="text-white">@php echo $sharedContentData['facebook']->{session('language', 'en') . '_content'} ?? "";  @endphp </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!" class="text-white">@php echo $sharedContentData['instagram']->{session('language', 'en') . '_content'} ?? "";  @endphp </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!" class="text-white">@php echo $sharedContentData['linkedin']->{session('language', 'en') . '_content'} ?? "";  @endphp </a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column--> 
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <img src="@php echo asset("storage/".$sharedContentData['site_logo_img']->en_content) ?? asset('assets/images/logo (1).png'); @endphp " alt="Logo"
+                        class="d-inline-block align-text-top">
+                </div>
+    
+    
+                {{-- <ul class="list-unstyled d-flex flex-row justify-content-center">
+                        <li>
+                            <a class="text-white px-2" href="#!">
+                                <i class="fab fa-facebook-square"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-white px-2" href="#!">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-white ps-2" href="#!">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </li>
+                    </ul> --}}
+    
+            </div>
+    
+            <!--Grid column-->
+    
+            <!--Grid column-->
+        </div>
+        <!--Grid row-->
+        </div>
+        <!-- Grid container -->
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let timeout;
+
+        function resetTimeout() {
+            clearTimeout(timeout);
+            timeout = setTimeout(logoutUser, 100 * 60 * 1000); // 100 minutes in milliseconds
+        }
+
+        function logoutUser() {
+            fetch('{{ route('logout') }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                }
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = '{{ route('login') }}';
+                }
+            });
+        }
+
+        // Reset the timeout on any user activity
+        window.onload = resetTimeout;
+        document.onmousemove = resetTimeout;
+        document.onkeydown = resetTimeout;
+        document.onclick = resetTimeout;
+        document.onscroll = resetTimeout;
+    </script>
+
+{{--         
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Fonction pour nettoyer les instances de modal-backdrop
+            function cleanModalBackdrops() {
+                // Sélectionner toutes les instances de modal-backdrop
+                const backdrops = document.querySelectorAll('.modal-backdrop.fade.show');
+                
+                // Si plus d'une instance est trouvée
+                if (backdrops.length > 1) {
+                    // Conserver seulement la première instance
+                    const firstBackdrop = backdrops[0];
+                    
+                    // Supprimer toutes les autres instances
+                    for (let i = 1; i < backdrops.length; i++) {
+                        backdrops[i].remove();
+                    }
+                }
+            }
+            
+            // Appeler la fonction de nettoyage après l'ouverture de la modal
+            document.addEventListener('shown.bs.modal', cleanModalBackdrops);
+            
+            // Appeler la fonction de nettoyage après la fermeture de la modal
+            document.addEventListener('hidden.bs.modal', cleanModalBackdrops);
+        });
+    </script> --}}
+
+    <script>
+        window.addEventListener('scroll', function() {
+            var navbar = document.getElementById('navbar');
+            var navbarBrand = document.querySelector('.navbar-brand img');
+            var navLinks = navbar.querySelectorAll('li.nav-item a');
+            var languageSelect = document.querySelector('.language-select');
+            var scroll = window.scrollY;
+
+            if (scroll < 10) {
+                navbar.classList.remove('BgColour');
+                navbarBrand.setAttribute('src', '/assets/images/logo (1).png');
+
+                navLinks.forEach(function(link) {
+                    if (link !== languageSelect) {
+                        link.style.color = '#FFF';
+                    }
+                });
+
+                languageSelect.style.background = 'transparent';
+                languageSelect.style.color = '#fff';
+
+            } else {
+                navbar.classList.add('BgColour');
+                navbarBrand.setAttribute('src', '/assets/images/logo.png');
+
+                navLinks.forEach(function(link) {
+                    if (link !== languageSelect) {
+                        link.style.color = '#4E4E4E';
+                    }
+                });
+
+                languageSelect.style.background = '#fff ';
+                languageSelect.style.color = '#4E4E4E';
+            }
+        });
+    </script>
+
+    {{-- Sublink for templates --}}
+    <script>
+        function activateLink(event, contentId) {
+            event.preventDefault();
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            // Add active class to the clicked link
+            event.currentTarget.classList.add('active');
+
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Show the selected content section
+            document.getElementById(contentId).classList.add('active');
+        }
+    </script>
+
+    {{-- FAQs plus btn --}}
+    <script>
+        $(document).ready(function() {
+            $('.question').click(function() {
+                $(this).toggleClass('active');
+                $(this).next('.answer').slideToggle(200);
+                $('.question').not(this).removeClass('active').next('.answer').slideUp(200);
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Script pour gérer la prévisualisation des templates
+            @foreach ($templates as $template)
+                // Construire l'ID complet avec l'ID unique du template
+                const templateList{{ $template->id }} = document.getElementById(
+                    'template-list{{ $template->id }}');
+
+                if (templateList{{ $template->id }}) {
+                    // Associer un événement onclick à chaque template-list
+                    templateList{{ $template->id }}.onclick = function() {
+                        previewTemplate('{{ asset('storage/extracted/' . $template->id . '/index.html') }}',
+                            '{{ $template->name }}');
+                    };
+                } else {
+                    console.error('Élément avec l\'ID "template-list{{ $template->id }}" non trouvé.');
+                }
+            @endforeach
+
+        });
+
+        function previewTemplate(file, nametemplate) {
+            const loading = document.getElementById('loading');
+            const previewFrame = document.getElementById('template-preview-frame');
+            loading.style.display = 'block';
+
+            previewFrame.src = file;
+            previewFrame.onload = () => {
+                loading.style.display = 'none';
+                // Optionnel : peut-être que vous voulez faire quelque chose après le chargement du fichier
+            };
+            const modalname = document.getElementById('exampleModalLabel');
+            modalname.innerHTML = 'Template: ' + nametemplate;
+            // console.log(nametemplate);
+        }
+    </script>
+</body>
+
+</html>
