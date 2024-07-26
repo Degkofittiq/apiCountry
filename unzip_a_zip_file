@@ -1,0 +1,172 @@
+    public function store(Request $request)
+    {
+        // Valider les données du formulaire
+        $request->validate([
+            'name' => 'required|string|max:255|unique:templates,name',
+            'typeservice' => 'required|string',
+            'description' => 'nullable|string',
+            'access_level' => 'required|string',
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'zip_file' => 'required|mimes:zip',
+        ]);
+    
+        // Enregistrer le thumbnail sur S3
+        $thumbnailPath = Storage::disk('s3')->put('thumbnails', $request->file('thumbnail'));
+    
+        // Enregistrer le fichier ZIP sur S3
+        $zipFilePath = Storage::disk('s3')->put('templates', $request->file('zip_file'));
+    
+        // Créer le nouveau template
+        $template = new Template();
+        $template->name = $request->name;
+        $template->typeservice = $request->typeservice;
+        $template->description = $request->description;
+        $template->access_level = $request->access_level;
+        $template->commerce_mode = $request->commerce_mode;
+        $template->createby = $request->createby;
+        $template->price = $request->price;
+        $template->typetemplate = $request->typetemplate;
+    
+        // Assigner les chemins des fichiers sur S3 au modèle
+        $template->thumbnail = $thumbnailPath;
+        $template->zip_file = $zipFilePath;
+    
+        // Traiter et sauvegarder d'autres attributs comme 'industrie' et 'productcategory'
+        $template->industrie = is_array($request->input('industrie')) ? implode(',', $request->input('industrie')) : $request->input('industrie');
+        $template->productcategory = is_array($request->input('productcategory')) ? implode(',', $request->input('productcategory')) : $request->input('productcategory');
+    
+        // Sauvegarder le template dans la base de données
+        $template->save();
+    
+        // Dézippage du fichier directement depuis S3
+        $this->unzipFromS3($zipFilePath, $template->id);
+    
+        return redirect()->route('templateslist')->with('success', 'Template uploaded and extracted successfully');
+    }
+    
+    private function unzipFromS3($zipFilePath, $templateId)
+    {
+        $extractPath = 'extracted/' . $templateId . '/';
+    
+        // Récupérer le fichier ZIP depuis S3
+        $zipStream = Storage::disk('s3')->get($zipFilePath);
+    
+        // Créer un fichier temporaire pour le contenu du ZIP
+        $tempFile = tempnam(sys_get_temp_dir(), 'zip');
+        file_put_contents($tempFile, $zipStream);
+    
+        $zip = new ZipArchive;
+    
+        if ($zip->open($tempFile) === TRUE) {
+            $targetFolder = null;
+    
+            // Parcourir les fichiers du ZIP pour trouver le dossier contenant index.html
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $fileInfo = $zip->statIndex($i);
+                if (basename($fileInfo['name']) == 'index.html') {
+                    $targetFolder = dirname($fileInfo['name']);
+                    break;
+                }
+            }
+    
+            if ($targetFolder) {
+                // Extraire le contenu du ZIP vers S3 avec les modifications nécessaires
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $fileInfo = $zip->statIndex($i);
+                    $fileName = str_replace($targetFolder, "dir/", $fileInfo['name']);
+    
+                    // S'assurer que le fichier n'est pas dans un répertoire parent
+                    if ($fileName[0] === '/') {
+                        $fileName = substr($fileName, 1);
+                    }
+    
+                    // Préparer le chemin du fichier dans S3
+                    $s3Path = $extractPath . $fileName;
+    
+                    if (substr($fileName, -1) == '/') {
+                        // C'est un répertoire, pas besoin de le créer explicitement sur S3,
+                        // S3 va gérer les répertoires automatiquement avec la clé des objets.
+                        continue;
+                    } else {
+                        // Lire le contenu du fichier dans le ZIP
+                        $fileContent = $zip->getFromIndex($i);
+    
+                        // Sauvegarder le fichier sur S3
+                        Storage::disk('s3')->put($s3Path, $fileContent);
+                    }
+                }
+            }
+    
+            $zip->close();
+        } else {
+            throw new \Exception('Échec de l\'ouverture du fichier ZIP.');
+        }
+    
+        // Supprimer le fichier temporaire
+        unlink($tempFile);
+    }
+
+
+
+
+
+    // to modify a template
+    public function update(Request $request, $id)
+    {
+        // Valider les données du formulaire
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'typeservice' => 'required|string',
+            'description' => 'nullable|string',
+            'access_level' => 'required|string',
+            'thumbnail' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'zip_file' => 'mimes:zip|max:10240',
+        ]);
+
+        $template = Template::findOrFail($id);
+
+        $template->typeservice = $request->input('typeservice');
+        $template->name = $request->input('name');
+        $template->description = $request->input('description');
+        $template->access_level = $request->input('access_level');
+        $template->commerce_mode = $request->input('commerce_mode');
+        $template->createby = $request->input('createby');
+        $template->price = $request->input('price');
+        $template->typetemplate = $request->input('typetemplate');
+
+        $industries = $request->input('industrie');
+        $productcategories = $request->input('productcategory');
+
+        if (is_array($industries)) {
+            $template->industrie = implode(',', $industries);
+        } else {
+            $template->industrie = $industries;
+        }
+
+        if (is_array($productcategories)) {
+            $template->productcategory = implode(',', $productcategories);
+        } else {
+            $template->productcategory = $productcategories;
+        }
+
+        if ($request->hasFile('thumbnail')) {
+            // Enregistrer le thumbnail sur S3
+            $thumbnailPath = Storage::disk('s3')->put('thumbnails', $request->file('thumbnail'));
+            $template->thumbnail = $thumbnailPath;
+        }
+
+        
+        if ($request->hasFile('zip_file')) {
+            // Enregistrer le fichier ZIP sur S3
+            $zipFilePath = Storage::disk('s3')->put('templates', $request->file('zip_file'));
+            $template->zip_file = $zipFilePath;
+        }
+
+        // Dézippage du fichier directement depuis S3
+        $this->unzipFromS3($zipFilePath, $template->id);
+
+
+        $template->save();
+
+        return redirect()->route('templateslist')->with('success', 'Template updated and extracted successfully');
+    }
