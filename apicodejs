@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sélection de pays, code téléphonique, drapeau et liste des villes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        select {
+            padding: 5px;
+            font-size: 16px;
+        }
+        .country-info {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-width: 400px;
+        }
+        .country-info p {
+            margin: 5px 0;
+        }
+        .flag {
+            width: 30px;
+            height: auto;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Sélection de pays, code téléphonique, drapeau et liste des villes</h1>
+
+<form id="countryForm">
+    <label for="country">Sélectionnez un pays :</label>
+    <select id="country" name="country">
+        <!-- Les options seront ajoutées dynamiquement avec JavaScript -->
+    </select>
+</form>
+
+<div id="countryInfo" class="country-info">
+    <!-- Ici sera affiché le code téléphonique, l'abréviation, le drapeau et la liste des villes du pays sélectionné -->
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const countrySelect = document.getElementById('country');
+    const countryInfo = document.getElementById('countryInfo');
+    
+    // Fonction pour récupérer les pays via l'API Restcountries
+    fetch('https://restcountries.com/v3.1/all')
+        .then(response => response.json())
+        .then(countries => {
+            countries.forEach(country => {
+                const countryName = country.name.common;
+                const countryCode = country.cca2; // Code ISO 3166-1 alpha-2
+                const callingCode = country.idd ? country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : '') : 'N/A';
+                const flagUrl = country.flags ? country.flags.png : '';
+                
+                const option = document.createElement('option');
+                option.value = countryName;
+                option.setAttribute('data-code', countryCode);
+                option.setAttribute('data-call', callingCode);
+                option.setAttribute('data-flag', flagUrl);
+                option.textContent = countryName;
+                
+                countrySelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Erreur lors du chargement des pays:', error));
+
+    // Écouteur d'événements pour la sélection d'un pays
+    countrySelect.addEventListener('change', function() {
+        const selectedCountry = this.value;
+        const countryCode = this.options[this.selectedIndex].getAttribute('data-code');
+        const callingCode = this.options[this.selectedIndex].getAttribute('data-call');
+        const flagUrl = this.options[this.selectedIndex].getAttribute('data-flag');
+        
+        // Appel pour récupérer les villes du pays sélectionné
+        fetchCities(countryCode);
+        
+        // Affichage des informations du pays sélectionné
+        displayCountryInfo(selectedCountry, countryCode, callingCode, flagUrl);
+    });
+    
+    // Fonction pour récupérer les villes via l'API Geonames
+    function fetchCities(countryCode) {
+        const username = "archange"; // Votre clé d'utilisateur Geonames
+        const geonamesUrl = `http://api.geonames.org/searchJSON?country=${countryCode}&featureClass=P&maxRows=1000&username=${username}`;
+        
+        fetch(geonamesUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.geonames && data.geonames.length > 0) {
+                    displayCities(data.geonames);
+                } else {
+                    displayCities([{name: "Aucune ville trouvée"}]);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des villes:', error);
+                displayCities([{name: "Erreur de récupération des villes"}]);
+            });
+    }
+
+    // Fonction pour afficher les villes
+    function displayCities(cities) {
+        let html = `<h3>Liste des villes</h3><ul>`;
+        cities.forEach(city => {
+            html += `<li>${city.name}</li>`;
+        });
+        html += `</ul>`;
+        
+        countryInfo.innerHTML += html;
+    }
+
+    // Fonction pour afficher les informations du pays sélectionné
+    function displayCountryInfo(countryName, countryCode, callingCode, flagUrl) {
+        let html = `<h2>Informations sur le pays sélectionné</h2>`;
+        html += `<p><strong>Pays :</strong> ${countryName}</p>`;
+        html += `<p><strong>Abréviation :</strong> ${countryCode}</p>`;
+        html += `<p><strong>Code téléphonique :</strong> ${callingCode}</p>`;
+        html += `<img class="flag" src="${flagUrl}" alt="Drapeau ${countryName}">`;
+        
+        countryInfo.innerHTML = html;
+    }
+});
+</script>
+
+</body>
+</html>
